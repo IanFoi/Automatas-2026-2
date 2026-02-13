@@ -1,17 +1,34 @@
-name: Compilar LaTeX
+name: Compilar Todas las Tareas
 on: [push]
+
 jobs:
   build_latex:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-      - name: Compilar LaTeX
-        uses: xu-cheng/latex-action@v2
+
+      - name: Compilar Tareas (Detectar carpetas Tarea_*)
+        uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex
-      - name: Subir PDF como artefacto
+          root_file: Tarea_*/main.tex
+          
+          glob_root_file: true
+          
+          latexmk_use_lualatex: false # Cambia a true si usas LuaLaTeX
+
+      - name: Renombrar PDFs (Opcional pero recomendado)
+        run: |
+          for dir in Tarea_*; do
+            if [ -f "$dir/main.pdf" ]; then
+              mv "$dir/main.pdf" "$dir.pdf"
+              echo "Generado: $dir.pdf"
+            fi
+          done
+
+      - name: Subir todos los PDFs
         uses: actions/upload-artifact@v4
         with:
-          name: PDF_Compilado
-          path: main.pdf
+          name: Tareas_Compiladas
+          path: "*.pdf"
+          if-no-files-found: ignore
