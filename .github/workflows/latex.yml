@@ -11,7 +11,7 @@ jobs:
       - name: Compilar Tareas (Detectar carpetas Tarea_*)
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: Tarea_*/main.tex
+          root_file: Tarea_*/
           
           glob_root_file: true
           
