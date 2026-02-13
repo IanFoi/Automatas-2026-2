@@ -8,14 +8,14 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Compilar Tareas (Detectar carpetas Tarea_*)
+      - name: Compilar Tareas
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: Tarea_*/
+          root_file: Tarea_*/main.tex
           
           glob_root_file: true
           
-          latexmk_use_lualatex: false # Cambia a true si usas LuaLaTeX
+          latexmk_use_lualatex: false 
 
       - name: Renombrar PDFs (Opcional pero recomendado)
         run: |
