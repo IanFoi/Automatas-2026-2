@@ -1,17 +1,53 @@
-- name: Compilar Tareas (Estrategia Manual)
+name: Compilar Todas las Tareas
+on: [push]
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Bajamos el código del repositorio
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      # 2. Compilación Inteligente
+      - name: Compilar Tareas y Soluciones
+        uses: xu-cheng/latex-action@v3
+        with:
+          # Busca cualquier archivo que empiece por 'main' dentro de carpetas 'Tarea_'
+          root_file: Tarea_*/main*.tex
+          glob_root_file: true
+          
+          # AQUÍ ESTÁ LA MAGIA (-cd):
+          # Le dice a latexmk que cambie su directorio de trabajo al del archivo .tex
+          # Esto arregla el error "File not found" en tus \input{}
+          args: "-cd -pdf -file-line-error -interaction=nonstopmode"
+
+      # 3. Script para organizar y renombrar los archivos generados
+      - name: Organizar PDFs
         run: |
-          # Recorremos todas las carpetas que empiecen por Tarea_
+          # Recorremos cada carpeta que empiece por Tarea_
           for dir in Tarea_*; do
-            if [ -d "$dir" ]; then
-              echo "Compilando en: $dir"
-              # Entramos al directorio
-              cd "$dir"
-              # Compilamos usando latexmk (el motor estándar)
-              # -pdf: genera pdf
-              # -interaction=nonstopmode: no se detiene si hay error
-              # -file-line-error: formato de error legible
-              latexmk -pdf -file-line-error -interaction=nonstopmode main.tex
-              # Regresamos al directorio raíz
-              cd ..
+            
+            # A) Si encuentra el PDF del Enunciado (main.pdf)
+            if [ -f "$dir/main.pdf" ]; then
+              # Lo mueve a la raíz con nombre: Tarea_01_Enunciado.pdf
+              mv "$dir/main.pdf" "${dir}_Enunciado.pdf"
+              echo "✅ Generado: ${dir}_Enunciado.pdf"
             fi
+
+            # B) Si encuentra el PDF de Soluciones (main_soluciones.pdf)
+            if [ -f "$dir/main_soluciones.pdf" ]; then
+              # Lo mueve a la raíz con nombre: Tarea_01_Soluciones.pdf
+              mv "$dir/main_soluciones.pdf" "${dir}_Soluciones.pdf"
+              echo "✅ Generado: ${dir}_Soluciones.pdf"
+            fi
+
           done
+
+      # 4. Subimos los archivos resultantes (Versión v4 para evitar el error de deprecación)
+      - name: Subir Artefactos
+        uses: actions/upload-artifact@v4
+        with:
+          name: Entregables_Completos
+          path: "*.pdf"
+          if-no-files-found: ignore
