@@ -1,34 +1,17 @@
-name: Compilar Todas las Tareas
-on: [push]
-
-jobs:
-  build_latex:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v4
-
-      - name: Compilar Tareas
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: Tarea_*/main.tex
-          
-          glob_root_file: true
-          
-          latexmk_use_lualatex: false 
-
-      - name: Renombrar PDFs (Opcional pero recomendado)
+- name: Compilar Tareas (Estrategia Manual)
         run: |
+          # Recorremos todas las carpetas que empiecen por Tarea_
           for dir in Tarea_*; do
-            if [ -f "$dir/main.pdf" ]; then
-              mv "$dir/main.pdf" "$dir.pdf"
-              echo "Generado: $dir.pdf"
+            if [ -d "$dir" ]; then
+              echo "Compilando en: $dir"
+              # Entramos al directorio
+              cd "$dir"
+              # Compilamos usando latexmk (el motor estándar)
+              # -pdf: genera pdf
+              # -interaction=nonstopmode: no se detiene si hay error
+              # -file-line-error: formato de error legible
+              latexmk -pdf -file-line-error -interaction=nonstopmode main.tex
+              # Regresamos al directorio raíz
+              cd ..
             fi
           done
-
-      - name: Subir todos los PDFs
-        uses: actions/upload-artifact@v4
-        with:
-          name: Tareas_Compiladas
-          path: "*.pdf"
-          if-no-files-found: ignore
