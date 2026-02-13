@@ -25,6 +25,8 @@
         \item $L=\{0, 1, 0+1, 1+0, 0+1+1, 1+0+1, \dots \}$ (suma de 0s y 1s, donde $\Sigma=\{0,1,+\}$).
     \end{enumerate}
 
+    \input {soluciones/S1}
+    
     \item Defínase la gramática $G=(\Sigma,\Delta,S,R)$, donde $\Sigma=\{0,1\}$, $\Delta=\{S\}$, con $S$ símbolo inicial y las reglas:
     $$S \rightarrow 0S0 \mid 1S1 \mid 0 \mid 1 \mid \varepsilon$$
     Demostrar que $G \models w$ si y sólo $\exists x \in \Sigma^{*}$ tal que $w=x \cdot x^{R}$ o $w=0+1$ (G genera el lenguaje de palíndromos).
