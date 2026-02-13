@@ -1,0 +1,156 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{{imagenes/}}
+
+\title{Tarea 1 \\ Autómatas y Lenguajes Formales}
+\author{Facultad de Ciencias}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item Dados los siguientes lenguajes, define una función recursiva que los genere:
+    \begin{enumerate}[a)]
+        \item $L=\{a^{n}b^{n} : n \ge 0\}$
+        \item $L=\{w \cdot w^{R} : w \in \{0,1\}^{*}\}$ (lenguaje de los palíndromos)
+        \item $L=\{0, 1, 0+1, 1+0, 0+1+1, 1+0+1, \dots \}$ (suma de 0s y 1s, donde $\Sigma=\{0,1,+\}$).
+    \end{enumerate}
+
+    \item Defínase la gramática $G=(\Sigma,\Delta,S,R)$, donde $\Sigma=\{0,1\}$, $\Delta=\{S\}$, con $S$ símbolo inicial y las reglas:
+    $$S \rightarrow 0S0 \mid 1S1 \mid 0 \mid 1 \mid \varepsilon$$
+    Demostrar que $G \models w$ si y sólo $\exists x \in \Sigma^{*}$ tal que $w=x \cdot x^{R}$ o $w=0+1$ (G genera el lenguaje de palíndromos).
+
+    \item Sean $L_{1}$, $L_{2}$, $L_{3} \in \mathcal{P}(\Sigma^{*})$ lenguajes, demostrar que la concatenación cumple las siguientes propiedades:
+    \begin{enumerate}[a)]
+        \item $L_{1} \cdot \{\varepsilon\} = L_{1} = \{\varepsilon\} \cdot L_{1}$
+        \item $L_{1} \cdot (L_{2} \cdot L_{3}) = (L_{1} \cdot L_{2}) \cdot L_{3}$
+    \end{enumerate}
+
+    \item Demostrar la distributividad de la unión y la concatenación para los lenguajes. Esto es:
+    $$L_{1} \cdot (L_{2} \cup L_{3}) = (L_{1} \cdot L_{2}) \cup (L_{1} \cdot L_{3})$$
+
+    \item Demostrar que el reverso de un lenguaje regular $L^{R}$ es regular.
+
+    \item Dadas las siguientes expresiones regulares:
+    $$R = 01^{+} + 010?$$
+    $$S = 01(1^{*} + (0+\varepsilon))$$
+    \begin{enumerate}[a)]
+        \item Mostrar que son equivalentes, desarrollando las expresiones (señalar las propiedades usadas).
+        \item Describir un autómata finito no determinístico con transiciones $\varepsilon$ que acepte el lenguaje.
+        Dibujar el diagrama de transición y la tabla de estados.
+    \end{enumerate}
+    
+    \textit{[Aquí iría el diagrama del autómata]}
+
+    \item Construir un autómata finito (no determinista) a partir de las siguientes expresiones regulares:
+    $$R = 01^{+} + 010?$$
+    $$S = 01(1^{*} + (0+\varepsilon))$$
+
+    \item A partir del siguiente diagrama de transiciones (siguiente autómata no determinista):
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width = 1\textwidth]{ejercicio8}
+      \end {figure}
+      
+        
+    
+    \begin{enumerate}[a)]
+        \item Describirlo formalmente y elaborar su tabla de estados.
+        \item Convertirlo en un autómata determinista usando el algoritmo de conversión y explicitando cada uno de los pasos. Obtener tanto la tabla de estados como el diagrama de transición.
+          
+        \item Escribir la expresión regular que define este autómata, y encontrar una expresión equivalente que sólo use los operadores de concatenación y estrella de Kleene.
+    \end{enumerate}
+
+    \item Dada la siguiente tabla de transiciones:
+
+    \begin{center}
+    \begin{tabular}{c|c|c}
+    \hline
+          & 0 & 1 \\
+    \hline
+    $q_0$ & $q_0$ & $q_1$ \\
+    
+    $q_1$ & $q_1$ & $q_0$ \\
+    \hline
+    \end{tabular}
+    \end{center}
+
+    Demostrar que $\delta^{*}(q_{0},w)=q_{1}$ si y sólo si $w$ tiene un número impar de 1's.
+
+    \item Dado el siguiente AFN:
+    \begin{figure}[ht]
+      \centering
+      \includegraphics[width = 1\textwidth]{ejercicio10}
+    \end {figure}   
+
+    Usa la función de transición extendida $\delta^{*}:Q\times\Sigma^{*}\rightarrow\mathcal{P}(Q)$ para obtener los estados resultantes de las siguientes cadenas:
+    \begin{enumerate}[a)]
+        \item a
+        \item aba
+        \item aaba
+        \item bba
+    \end{enumerate}
+
+    \item Reduce los siguientes autómatas finitos deterministas a su forma mínima:
+      \begin{enumerate}[a)]
+        
+      \item
+        \begin{figure}[ht]                                                     
+        \includegraphics[width = 0.5\textwidth]{ejercicio11a}
+        \end {figure}
+      \item
+        \begin{figure}[ht]
+            \includegraphics[width = 0.5\textwidth]{ejercicio11b}
+        \end {figure}   
+    
+    \end{enumerate}
+    \item A partir de la siguiente expresión regular:
+    $$(0?+1)1^{+}$$
+    \begin{enumerate}[a)]
+        \item Generar el autómata finito mediante el algoritmo de construcción de Thompson y dibujar el diagrama.
+        \item Usar el algoritmo para transformarlo en un AFD. Dibujar el diagrama.
+        \item Aplicar el algoritmo de llenado de tabla para obtener estados distinguibles y equivalentes.
+        \item Aplicar el algoritmo para encontrar el autómata mínimo. Dibujar el diagrama.
+    \end{enumerate}
+
+    \item Usando el lema del bombeo, probar que los siguientes lenguajes no son regulares:
+    \begin{enumerate}[a)]
+        \item $L = \{0^{n}1^{2n}: n,m \in \mathbb{N}\}$
+        \item $L = \{a^{m}b^{n}: 1 \le m \le n\}$
+        \item $L = \{a^{p}: p \text{ es primo}\}$ y $\Sigma=\{a\}$
+    \end{enumerate}
+
+    \item A partir del siguiente fragmento de código, elabora en Haskell un simulador de un autómata que acepte las cadenas del lenguaje $L=((0^* 1^+ 0 + 1^*)^*)$:
+\begin{verbatim}
+-- Los estados se definen por enteros
+type State = Int
+
+-- Define el estado inicial
+initialState :: State
+
+-- Define una funcion que determine si un estado es o no final
+finalState :: State -> Bool
+...
+
+-- Define las transiciones
+transition :: State -> Char -> State
+...
+
+-- Funcion para correr el automata
+run :: String -> Bool
+...
+\end{verbatim} 
+
+La funcion run toma una cadena de 0s y 1s y regresa un booleano: True si la cadena es aceptada, y False si no. Prueba con las cadenas: "00", "10", "001110", "00111", "0001111001", "000111100110".
+
+\end{enumerate}
+\end{document}
