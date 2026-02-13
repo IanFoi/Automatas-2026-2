@@ -5,13 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Compilar LaTeX
         uses: xu-cheng/latex-action@v2
         with:
           root_file: main.tex
       - name: Subir PDF como artefacto
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: PDF_Compilado
           path: main.pdf
